@@ -1,0 +1,909 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>計組期中救命包</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: notebook column (≈68ch) under a sticky chapter bar; each topic = 公式 → SOP → 例題 → 陷阱 */
+:root{
+  --bg:#F3F5F2; --paper:#FFFFFF; --ink:#1C2321; --muted:#5D6965; --line:#D9DFDB;
+  --accent:#0F6E5C; --accent-soft:#E2F0EB;
+  --mark:#FFE9A3; --warn:#B4441F; --warn-soft:#FBEAE3;
+  --sgn:#C2410C; --exp:#1D5FB4; --frac:#0F7A4A;
+  --f-display:"LXGW WenKai TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121614; --paper:#1A1F1D; --ink:#E5EBE8; --muted:#9AA7A2; --line:#2E3633;
+  --accent:#5CC9AE; --accent-soft:#1D2F2A; --mark:#5A4A12; --warn:#F08A64; --warn-soft:#3A2119;
+  --sgn:#F59563; --exp:#79A8F0; --frac:#5FD39A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121614; --paper:#1A1F1D; --ink:#E5EBE8; --muted:#9AA7A2; --line:#2E3633;
+  --accent:#5CC9AE; --accent-soft:#1D2F2A; --mark:#5A4A12; --warn:#F08A64; --warn-soft:#3A2119;
+  --sgn:#F59563; --exp:#79A8F0; --frac:#5FD39A; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.85;padding-inline:16px;padding-block:0 80px}
+.wrap{max-width:780px;margin-inline:auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.35;margin:0}
+p{margin:0}
+code,.m{font-family:var(--f-mono);font-size:.92em}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* sticky nav */
+nav.chips{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);margin-inline:-16px;padding:10px 16px;border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
+nav.chips a{display:inline-block;text-decoration:none;color:var(--ink);font-size:14px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper);margin-right:6px}
+nav.chips a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* hero */
+header.hero{padding-block:44px 28px;display:grid;gap:14px}
+.hero .kicker{font-size:13px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.hero h1{font-size:clamp(34px,7vw,52px)}
+.hero p{color:var(--muted);max-width:60ch}
+
+section.ch{padding-block:56px 8px;display:grid;gap:22px}
+section.ch>h2{font-size:clamp(26px,5vw,34px);display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+section.ch>h2 .no{font-family:var(--f-mono);font-size:15px;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:0 8px;line-height:1.7}
+.lead{color:var(--muted);max-width:62ch}
+h3{font-size:21px;margin-top:14px}
+h4{font-size:16px;margin:6px 0 0;color:var(--accent);letter-spacing:.04em}
+
+/* formula block */
+.formula{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:12px}
+.formula .row{display:grid;grid-template-columns:minmax(0,1fr);gap:2px}
+.formula .row b{font-family:var(--f-mono);font-size:15.5px;font-weight:600;overflow-wrap:anywhere}
+.formula .row span{color:var(--muted);font-size:14.5px}
+
+/* SOP */
+ol.sop{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:s}
+ol.sop>li{counter-increment:s;display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start}
+ol.sop>li::before{content:counter(s);font-family:var(--f-mono);font-weight:600;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--paper);display:grid;place-items:center;font-size:14px;margin-top:2px}
+.sopbox{border-left:3px solid var(--accent);padding:4px 0 4px 18px;display:grid;gap:14px}
+.sopbox>.t{font-weight:700}
+
+/* callouts */
+.trap{background:var(--warn-soft);border-radius:10px;padding:14px 18px;display:grid;gap:6px}
+.trap .t{color:var(--warn);font-weight:700;font-size:14px;letter-spacing:.06em}
+.tip{background:var(--accent-soft);border-radius:10px;padding:14px 18px;display:grid;gap:6px}
+.tip .t{color:var(--accent);font-weight:700;font-size:14px;letter-spacing:.06em}
+ul.plain{margin:0;padding-left:1.2em;display:grid;gap:6px}
+
+mark,.ans{background:var(--mark);color:var(--ink);padding:1px 6px;border-radius:4px;font-weight:700}
+
+/* worked example */
+.ex{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px}
+.ex .q{font-weight:700}
+.ex .src{font-size:12.5px;color:var(--muted);font-family:var(--f-mono)}
+.calc{font-family:var(--f-mono);font-size:14.5px;line-height:1.9;white-space:pre-wrap;overflow-x:auto;background:var(--bg);border-radius:8px;padding:12px 14px;margin:0}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:700;background:var(--accent-soft);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.m,th.m{font-family:var(--f-mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+table.steps td{white-space:nowrap}
+table.steps tr.it-start td{border-top:2px solid var(--line)}
+table.steps td.it{font-family:var(--f-mono);font-weight:700;color:var(--accent);text-align:center}
+table.steps td.neg{color:var(--warn)}
+table.steps td.chg{background:var(--mark)}
+.yes{color:var(--accent);font-weight:700}
+
+/* ieee bits */
+.bits{font-family:var(--f-mono);font-size:15px;overflow-wrap:anywhere}
+.bs{color:var(--sgn);font-weight:600}.be{color:var(--exp);font-weight:600}.bf{color:var(--frac);font-weight:600}
+.ieee-diagram{display:grid;grid-template-columns:1fr 3fr 8fr;border-radius:10px;overflow:hidden;border:1px solid var(--line);font-family:var(--f-mono);font-size:13.5px;text-align:center}
+.ieee-diagram div{padding:10px 4px;background:var(--paper)}
+.ieee-diagram div+div{border-left:1px solid var(--line)}
+.ieee-diagram small{display:block;color:var(--muted);font-family:var(--f-body)}
+
+/* exam answers */
+details.qa{background:var(--paper);border:1px solid var(--line);border-radius:12px}
+details.qa>summary{cursor:pointer;padding:14px 18px;list-style:none;display:flex;gap:10px;align-items:baseline}
+details.qa>summary::-webkit-details-marker{display:none}
+details.qa>summary::before{content:"+";font-family:var(--f-mono);color:var(--accent);font-weight:700;width:14px;flex:none}
+details.qa[open]>summary::before{content:"−"}
+details.qa>summary .tag{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);flex:none}
+details.qa .body{padding:0 18px 18px 42px;display:grid;gap:10px}
+.year{display:grid;gap:12px}
+.year h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.year h3 small{font-family:var(--f-body);font-size:14px;color:var(--muted);font-weight:400}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-size:14px;padding:7px 14px;border-radius:8px;border:1px solid var(--accent);background:var(--paper);color:var(--accent);cursor:pointer}
+button.pri{background:var(--accent);color:var(--paper)}
+
+/* tool */
+.tool{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:14px}
+.fields{display:flex;flex-wrap:wrap;gap:12px;align-items:end}
+.fields label{display:grid;gap:4px;font-size:13.5px;color:var(--muted)}
+input,select{font:inherit;font-family:var(--f-mono);font-size:15px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:9.5em;max-width:100%}
+.out{font-family:var(--f-mono);font-size:15px}
+
+.map td:first-child{min-width:12em}
+.map td:not(:first-child),.map th:not(:first-child){text-align:center}
+.cheat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
+.cheat .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.cheat .card h4{margin:0}
+.cheat .card div{font-size:14.5px}
+footer{color:var(--muted);font-size:13px;padding-top:48px}
+</style>
+
+<div class="wrap">
+<nav class="chips" aria-label="章節">
+  <a href="#map">考試地圖</a><a href="#perf">① 效能計算</a><a href="#base">② 進位與補數</a><a href="#ieee">③ IEEE 754</a><a href="#grs">④ GRS 捨入</a><a href="#mul">⑤ 乘法表格</a><a href="#div">⑥ 除法表格</a><a href="#past">考古題詳解</a><a href="#tools">對答案工具</a><a href="#cheat">考前小抄</a>
+</nav>
+
+<header class="hero">
+  <div class="kicker">計算機組織 · 第一次期中考</div>
+  <h1>計組期中救命包</h1>
+  <p>把 109、110、112、113 四份考古題和 Chap1、Chap2 投影片拆成 6 種固定題型。每種題型都是「公式 → 照著做的步驟 → 考古題實際算一次」。題目每年幾乎一樣，只換數字，所以把 SOP 背熟就能拿分。</p>
+</header>
+
+<!-- ============ MAP ============ -->
+<section class="ch" id="map">
+  <h2><span class="no">00</span>考試地圖：每年都考這些</h2>
+  <p class="lead">打勾代表那一年有出。全部 6 種題型每年都出現，配分加起來就是整張考卷。</p>
+  <div class="tbl"><table class="map">
+    <thead><tr><th>題型</th><th>109</th><th>110</th><th>112</th><th>113</th><th>配分</th></tr></thead>
+    <tbody>
+      <tr><td>① 效能：CPI / MIPS / 編譯器 / 謬誤</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td>10–15%</td></tr>
+      <tr><td>① MFLOPS 求 x、y</td><td class="yes">✓</td><td class="yes">✓</td><td></td><td class="yes">✓</td><td>10–14%</td></tr>
+      <tr><td>① Speedup（只改善某部分）</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td>8–15%</td></tr>
+      <tr><td>② 進位轉換 / 2 補數 / Excess</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td>8–15%</td></tr>
+      <tr><td>③ IEEE 754 轉換、能表示幾個數、gap</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td>15–20%</td></tr>
+      <tr><td>④ GRS 捨入計算</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td>15–16%</td></tr>
+      <tr><td>⑤⑥ 乘法 / 除法硬體表格</td><td>乘</td><td>除</td><td>除</td><td>除</td><td>15%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tip"><div class="t">讀書順序建議</div>
+    <p>先拿最好拿的：⑥ 除法表格（照抄步驟就滿分）→ ③ IEEE 754 → ② 進位 → ④ GRS → ① 效能。每讀完一章，去「考古題詳解」把那一題蓋住答案自己算一次。</p>
+  </div>
+</section>
+
+<!-- ============ PERF ============ -->
+<section class="ch" id="perf">
+  <h2><span class="no">01</span>效能計算（Chap1）</h2>
+  <p class="lead">只要記 4 條公式。所有題目都是把數字代進去。</p>
+
+  <div class="formula">
+    <div class="row"><b>CPU 時間 = IC × CPI ÷ clock rate</b><span>IC = 指令數。clock rate 用 Hz（1.2 GHz = 1.2×10⁹）。</span></div>
+    <div class="row"><b>clock rate = 1 ÷ cycle time</b><span>1 ns ⇔ 1 GHz，0.5 ns ⇔ 2 GHz。</span></div>
+    <div class="row"><b>平均 CPI = Σ（比例 × 該類 CPI）</b><span>例：40%×1.3 + 40%×1 + 20%×x</span></div>
+    <div class="row"><b>MIPS = clock(MHz) ÷ CPI = IC ÷ (時間 × 10⁶)</b><span>小技巧：clock 換成 MHz（1.2 GHz = 1200），10⁶ 就自動消掉。</span></div>
+    <div class="row"><b>MFLOPS = clock(MHz) ÷ CPI(FP)</b><span>老師題目上寫的定義。110 年用這個算拿滿分。</span></div>
+    <div class="row"><b>X 比 Y 快 n 倍：n = 時間Y ÷ 時間X</b><span>Speedup = 改善前時間 ÷ 改善後時間。永遠是「大的時間除以小的時間」。</span></div>
+  </div>
+
+  <h3>題型 A：兩個編譯器（給 IC 和 MIPS 或時間）</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div><b>(a) 求 CPI：</b>給 MIPS 就用 <code>CPI = clock(MHz) ÷ MIPS</code>；給時間就用 <code>CPI = 時間 × clock ÷ IC</code>。</div></li>
+      <li><div><b>(b) 「MIPS 相同」</b>：MIPS = f ÷ CPI 相同 → <code>fA ÷ fB = CPI_A ÷ CPI_B</code>。<br><b>「執行時間相同」</b>：IC×CPI÷f 相同 → <code>fA ÷ fB = (IC_A×CPI_A) ÷ (IC_B×CPI_B)</code>。</div></li>
+      <li><div><b>(c) 新編譯器快多少：</b>三個時間都算出來（都用原本的 clock），再用「舊時間 ÷ 新時間」。結果小於 1 就要寫「新的比較慢」。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q1 · clock 1.2 GHz</div>
+    <div class="q">A：IC 1.2×10⁹、MIPS 1250；B：IC 10⁹、MIPS 800</div>
+<pre class="calc">(a) CPI_A = 1200 ÷ 1250 = 0.96      CPI_B = 1200 ÷ 800 = 1.5
+(b) MIPS 相同 → fA/fB = 0.96 ÷ 1.5 = 0.64
+    → A 的 clock 只有 B 的 0.64 倍（B 的 clock 快 1.5625 倍）
+(c) 新：0.9×10⁹ × 1.4 ÷ 1.2×10⁹ = 1.05 s
+    A ：1.2×10⁹ × 0.96 ÷ 1.2×10⁹ = 0.96 s
+    B ：10⁹ × 1.5 ÷ 1.2×10⁹     = 1.25 s
+    對 A：0.96 ÷ 1.05 = 0.914 → 新的反而比 A 慢
+    對 B：1.25 ÷ 1.05 = 1.19 倍快</pre>
+  </div>
+
+  <h3>題型 B：MFLOPS 表格求 x、y</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>總 cycle 數 = 執行時間 × clock rate。</div></li>
+      <li><div>平均 CPI = 總 cycle ÷ IC。</div></li>
+      <li><div>列式：平均 CPI = 比例₁×CPI₁ + 比例₂×CPI₂ + 比例₃×CPI₃，把未知數解出來。</div></li>
+      <li><div>MIPS = clock(MHz) ÷ 平均 CPI；MFLOPS = clock(MHz) ÷ CPI(FP)。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q2 · clock 2.5 GHz</div>
+    <div class="q">A：IC 1.5×10¹⁰，L/S 40% FP 40% Br 20%，CPI 1.3 / 1 / x，時間 7.5 s<br>B：IC 3.2×10¹⁰，L/S 50% FP 40% Br 10%，CPI y / 0.8 / 1.4，時間 13.44 s</div>
+<pre class="calc">A：7.5 × 2.5×10⁹ = 1.875×10¹⁰ cycles → CPI = 1.875×10¹⁰ ÷ 1.5×10¹⁰ = 1.25
+   1.25 = 0.4×1.3 + 0.4×1 + 0.2x = 0.92 + 0.2x → x = 1.65
+B：13.44 × 2.5×10⁹ = 3.36×10¹⁰ → CPI = 3.36 ÷ 3.2 = 1.05
+   1.05 = 0.5y + 0.4×0.8 + 0.1×1.4 = 0.5y + 0.46 → y = 1.18
+(b) MIPS_A = 2500 ÷ 1.25 = 2000     MFLOPS_A = 2500 ÷ 1   = 2500
+    MIPS_B = 2500 ÷ 1.05 ≈ 2381     MFLOPS_B = 2500 ÷ 0.8 = 3125</pre>
+  </div>
+
+  <h3>題型 C：多種指令類別、兩台機器比快慢</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>每台機器算平均 CPI（比例 × CPI 加總）。題目給「A 是 B 的 2 倍」這種，就設 B = x 再全部用 x 表示。</div></li>
+      <li><div>每指令平均時間 = 平均 CPI ÷ clock(GHz)，單位 ns。IC 一樣時直接比這個就好。</div></li>
+      <li><div>時間小的比較快。快幾倍 = 大 ÷ 小。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q3 · M1 8 GHz、M2 5 GHz</div>
+    <div class="tbl"><table>
+      <thead><tr><th>編譯器</th><th class="m">M1 CPI</th><th class="m">M1 ns/指令</th><th class="m">M2 CPI</th><th class="m">M2 ns/指令</th></tr></thead>
+      <tbody>
+        <tr><td>C1（50/30/20）</td><td class="m">0.5+0.9+1.4 = 2.8</td><td class="m">0.35</td><td class="m">1+0.9+0.6 = 2.5</td><td class="m">0.5</td></tr>
+        <tr><td>C2（25/25/50）</td><td class="m">0.25+0.75+3.5 = 4.5</td><td class="m">0.5625</td><td class="m">0.5+0.75+1.5 = 2.75</td><td class="m">0.55</td></tr>
+        <tr><td>C3（30/45/25）</td><td class="m">0.3+1.35+1.75 = 3.4</td><td class="m">0.425</td><td class="m">0.6+1.35+0.75 = 2.7</td><td class="m">0.54</td></tr>
+      </tbody>
+    </table></div>
+<pre class="calc">(a) 用 C1：M1 比較快，0.5 ÷ 0.35 = 1.43 倍
+(b) 已經買 C3：M1 0.425 &lt; M2 0.54 → 買 M1（快 1.27 倍）
+(c) M1 的廠商：M1 上 C1 最快（0.35）→ 用 C1
+(d) 最慢組合：M1 + C2（0.5625 ns）</pre>
+  </div>
+
+  <h3>題型 D：Speedup（只改善某一部分）</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>先算出每一類的「時間」或「cycle 數」= 指令數 × CPI。題目直接給秒數就直接用。</div></li>
+      <li><div><b>「最高 speedup」</b>：把能改的那一類變成 0，Speedup = 原總時間 ÷ 剩下的時間。</div></li>
+      <li><div><b>「能不能減少 25%」</b>：要減掉的量 = 25% × 總時間。那一類的時間比要減的量少，就回答「不可能」。</div></li>
+      <li><div><b>「改善 CPI，但指令數變 1.4 倍」</b>：設新 CPI 為 c，列式「新總 cycle = 0.9 × 舊總 cycle」解 c。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">110 期中 Q3 · MUL 6、ADD 10、L/S 8、Branch 3（×10⁶），CPI 2 / 1 / 4 / 2</div>
+<pre class="calc">總 cycle = 6×2 + 10×1 + 8×4 + 3×2 = 12 + 10 + 32 + 6 = 60 (×10⁶)
+(a) L/S 變 0：60 ÷ (60 − 32) = 60 ÷ 28 ≈ 2.14
+(b) MUL+ADD 換成一個 MAC（CPI 2.4），換 n 組：
+    每換一組 cycle 變化 = −2 − 1 + 2.4 = −0.6
+    要少 4%：0.04 × 60 = 2.4 → 0.6n = 2.4 → n = 4
+    → MUL 和 ADD 各換掉 4×10⁶ 個</pre>
+  </div>
+
+  <h3>題型 E：謬誤（Fallacy）</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>把兩台的 CPU 時間都算出來。</div></li>
+      <li><div>看題目說的指標（clock 最高、MIPS 最高、指令數最多）是不是剛好對應到時間最短。</div></li>
+      <li><div>寫結論：「此例中 ___ 高的是 P_，但 P_ 時間較短，所以此說法不成立（或此例剛好成立）」。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">112 期中 Q3 · P1 4 GHz、CPI 1.4、IC 5×10⁹；P2 3 GHz、CPI 0.9、IC 10⁹</div>
+<pre class="calc">P1 = 5×10⁹ × 1.4 ÷ 4×10⁹ = 1.75 s      P2 = 10⁹ × 0.9 ÷ 3×10⁹ = 0.3 s
+(a) clock 高的是 P1，但 P2 比較快 → 不成立
+(b) P1 跑 10⁹ 個要 10⁹×1.4÷4×10⁹ = 0.35 s
+    P2 在 0.35 s 能跑 0.35 × 3×10⁹ ÷ 0.9 ≈ 1.17×10⁹ 個
+(c) MIPS_P1 = 4000 ÷ 1.4 ≈ 2857，MIPS_P2 = 3000 ÷ 0.9 ≈ 3333
+    P2 MIPS 高，P2 也比較快 → 此例成立</pre>
+  </div>
+  <div class="ex">
+    <div class="src">112 期中 Q4 · 舉例 MIPS 和效能反過來</div>
+<pre class="calc">同一台 4 GHz 機器，同一個程式用兩個編譯器：
+編譯器 1：10×10⁹ 個指令，CPI 1 → 時間 2.5 s，MIPS = 4000
+編譯器 2：2×10⁹ 個指令，CPI 2  → 時間 1 s，  MIPS = 2000
+編譯器 2 的 MIPS 比較低，卻比較快 → MIPS 和效能反向</pre>
+  </div>
+  <div class="trap"><div class="t">陷阱</div>
+    <ul class="plain">
+      <li>「cycle time 1 ns」要先轉成 clock rate 1 GHz 再算。</li>
+      <li>比例是 40% 就用 0.4，不要忘記乘。</li>
+      <li>「快幾倍」一定是大時間 ÷ 小時間，所以答案一定 ≥ 1。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ BASE ============ -->
+<section class="ch" id="base">
+  <h2><span class="no">02</span>進位轉換、2 補數、Excess</h2>
+  <p class="lead">萬用法：任何進位先轉成十進位，再轉成目標進位。只有 2、4、8、16 之間可以抄捷徑。</p>
+
+  <h3>任何進位 → 十進位</h3>
+  <div class="formula">
+    <div class="row"><b>(d₂d₁d₀.d₋₁d₋₂)ₖ = d₂k² + d₁k¹ + d₀ + d₋₁/k + d₋₂/k²</b><span>A=10、B=11、C=12。例：(3A)₁₃ = 3×13 + 10 = 49</span></div>
+    <div class="row"><b>(.343)₆ = 3/6 + 4/36 + 3/216 = 135/216 = 0.625</b><span>小數部分化成分數最準。</span></div>
+  </div>
+
+  <h3>十進位 → 任何進位</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div><b>整數部分：</b>一直除以 k，記餘數，<b>由下往上</b>讀。<br><code>296 ÷ 11 = 26 餘 10(A)，26 ÷ 11 = 2 餘 4，2 ÷ 11 = 0 餘 2 → (24A)₁₁</code></div></li>
+      <li><div><b>小數部分：</b>一直乘以 k，取整數部分，<b>由上往下</b>讀。<br><code>0.625×2 = 1.25 → 1；0.25×2 = 0.5 → 0；0.5×2 = 1.0 → 1 → .101</code></div></li>
+    </ol>
+  </div>
+
+  <h3>捷徑：2 ↔ 4 ↔ 8 ↔ 16</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>每一位拆成 bits：4 進位一位 = 2 bits，8 進位 = 3 bits，16 進位 = 4 bits。</div></li>
+      <li><div>從<b>小數點往左右兩邊</b>重新分組，不夠的補 0。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q4(b) · (−2310.102)₄ 轉 8 進位</div>
+<pre class="calc">4 進位每位拆 2 bits：2310.102 → 10 11 01 00 . 01 00 10
+重新 3 個一組：      10 110 100 . 010 010
+                     2   6   4  .  2   2
+答案：(−264.22)₈</pre>
+  </div>
+
+  <h3>Excess（偏移）表示法</h3>
+  <div class="formula">
+    <div class="row"><b>存的 bits = 真正的值 + N</b><span>Excess 32 用 6 bits，Excess 64 用 7 bits。</span></div>
+    <div class="row"><b>真正的值 = 存的 bits − N</b><span>例：Excess 32 (010011)₂ = 19 − 32 = −13 → (−23)₅</span></div>
+  </div>
+
+  <h3>2 補數（用最少 bits）</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>先寫<b>正數</b>的二進位，最前面補一個 0（符號位）。<br><code>18 → 10010 → 010010</code></div></li>
+      <li><div>要負數：<b>全部 0↔1 反轉</b>，再在<b>最右邊那一位加 1</b>（有小數就加在最後一個小數位）。<br><code>010010 → 101101 → +1 → 101110 = −18</code></div>
+      </li>
+      <li><div>檢查：k bits 能表示 −2<sup>k−1</sup> ~ 2<sup>k−1</sup>−1。−18 用 6 bits（−32 ~ 31）剛好。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q4(e) · (−154.213)₆ 轉 2 補數</div>
+<pre class="calc">轉十進位：1×36 + 5×6 + 4 = 70；.213₆ = 2/6 + 1/36 + 3/216 = 81/216 = 0.375
+70.375 = 1000110.011 → 加符號位：01000110.011
+反轉：10111001.100
+最後一位 +1：10111001.101
+答案：(10111001.101)₂</pre>
+  </div>
+  <div class="trap"><div class="t">陷阱</div>
+    <ul class="plain">
+      <li>有小數的負數<b>不能</b>整數、小數分開轉。−19.25 ≠ (−19) 的補數接上 .01。一定要整串反轉再加 1。</li>
+      <li>剛好是 −2<sup>k−1</sup>（像 −16）只要 k bits：−16 = 10000，不用 6 bits。</li>
+      <li>2 補數讀回十進位：最左邊那一位的權重是<b>負的</b>。1010011 = −64 + 16 + 2 + 1 = −45。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ IEEE ============ -->
+<section class="ch" id="ieee">
+  <h2><span class="no">03</span>IEEE 754 單精度</h2>
+  <p class="lead">32 bits 切成三段。顏色在整頁都一樣：<span class="bs">符號</span>、<span class="be">指數</span>、<span class="bf">小數</span>。</p>
+  <div class="ieee-diagram" aria-label="IEEE 754 位元配置">
+    <div><span class="bs">S</span><small>1 bit</small></div>
+    <div><span class="be">Exponent</span><small>8 bits，bias 127</small></div>
+    <div><span class="bf">Fraction</span><small>23 bits</small></div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Exponent</th><th>Fraction</th><th>代表</th><th>值</th></tr></thead>
+    <tbody>
+      <tr><td class="m">0</td><td>0</td><td>0</td><td>±0</td></tr>
+      <tr><td class="m">0</td><td>非 0</td><td>denormalized</td><td class="m">±0.fraction × 2⁻¹²⁶</td></tr>
+      <tr><td class="m">1 ~ 254</td><td>任何</td><td>一般數（normalized）</td><td class="m">±1.fraction × 2^(E−127)</td></tr>
+      <tr><td class="m">255</td><td>0</td><td>±∞</td><td></td></tr>
+      <tr><td class="m">255</td><td>非 0</td><td>NaN</td><td></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>bits → 數值</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>看第一個 bit：0 正、1 負。</div></li>
+      <li><div>8 個指數 bits 轉十進位得 E。</div></li>
+      <li><div>E 在 1~254：答案 = ±1.<span class="bf">fraction</span> × 2^(E−127)，fraction 後面的 0 全部刪掉。</div></li>
+      <li><div>E = 0：答案 = ±0.<span class="bf">fraction</span> × 2⁻¹²⁶（denormalized，前面是 0. 不是 1.）。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q5(a)(b)</div>
+    <div class="bits"><span class="bs">1</span> <span class="be">10101101</span> <span class="bf">1100…0</span></div>
+<pre class="calc">E = 128+32+8+4+1 = 173 → 173 − 127 = 46 → <span class="ans">−1.11 × 2⁴⁶</span></pre>
+    <div class="bits"><span class="bs">0</span> <span class="be">01110011</span> <span class="bf">000…0</span></div>
+<pre class="calc">E = 64+32+16+2+1 = 115 → 115 − 127 = −12 → <span class="ans">1.0 × 2⁻¹²</span></pre>
+  </div>
+
+  <h3>數值 → bits</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>寫成 1.xxx × 2ᵉ 的樣子。</div></li>
+      <li><div><b>e ≥ −126</b>：指數 = e + 127 寫成 8 bits；fraction = xxx 後面補 0 到 23 位。</div></li>
+      <li><div><b>e &lt; −126</b>：要變 denormalized。小數點往左移 (−126 − e) 位，變成 0.00…1xxx × 2⁻¹²⁶。指數寫 00000000，fraction 寫小數點後那一串。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q5(c)(d)</div>
+<pre class="calc">−1.101 × 2¹²⁷：127 + 127 = 254 = 11111110</pre>
+    <div class="bits"><span class="bs">1</span> <span class="be">11111110</span> <span class="bf">10100000000000000000000</span></div>
+<pre class="calc">1.01 × 2⁻¹²⁹：−129 &lt; −126，要左移 −126 − (−129) = 3 位
+1.01 × 2⁻¹²⁹ = 0.00101 × 2⁻¹²⁶</pre>
+    <div class="bits"><span class="bs">0</span> <span class="be">00000000</span> <span class="bf">00101000000000000000000</span></div>
+  </div>
+
+  <h3>計數題、gap、範圍（每年必考一題）</h3>
+  <div class="formula">
+    <div class="row"><b>能表示幾個不同實數 = 2³² − 2²⁴ − 1</b><span>總共 2³² 種；扣掉指數 255 的（∞ 和 NaN）2 × 2²³ = 2²⁴ 種；+0 和 −0 是同一個數，再扣 1。</span></div>
+    <div class="row"><b>拆開寫 = 2×254×2²³ + 2×(2²³−1) + 1</b><span>normalized + denormalized + 零。109 年問「normalized 和 denormalized 總數（含 0）」就是這個。</span></div>
+    <div class="row"><b>指數為 e 時，相鄰兩數的 gap = 2^(e−23)</b><span>因為 fraction 有 23 位，最後一位的大小是 2⁻²³。</span></div>
+    <div class="row"><b>最小 normalized gap = 2⁻¹²⁶⁻²³ = 2⁻¹⁴⁹</b><span>e = −126 時。</span></div>
+    <div class="row"><b>最大 normalized gap = 2¹²⁷⁻²³ = 2¹⁰⁴</b><span>e = 127 時。</span></div>
+    <div class="row"><b>正 denormalized 範圍：2⁻¹⁴⁹ ~ 2⁻¹²⁶ − 2⁻¹⁴⁹</b><span>最小 0.00…01 × 2⁻¹²⁶，最大 0.11…1 × 2⁻¹²⁶。</span></div>
+    <div class="row"><b>正 normalized 範圍：2⁻¹²⁶ ~ (2 − 2⁻²³) × 2¹²⁷</b><span>1.0 × 2⁻¹²⁶ 到 1.11…1 × 2¹²⁷。</span></div>
+  </div>
+  <div class="trap"><div class="t">陷阱</div>
+    <ul class="plain">
+      <li>denormalized 的指數是 −126，<b>不是</b> 0 − 127 = −127。</li>
+      <li>算「有幾個數」時正負都要算，109 年考卷上只算正的那半被扣分。</li>
+      <li>2⁻¹²⁴ 是 normalized：−124 + 127 = 3 → 00000011，fraction 全 0。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ GRS ============ -->
+<section class="ch" id="grs">
+  <h2><span class="no">04</span>Guard / Round / Sticky 捨入</h2>
+  <p class="lead">題目給幾位小數，答案就留幾位小數。計算時多留 3 位：G、R、S。</p>
+  <div class="formula">
+    <div class="row"><b>G = 保留位數後第 1 位，R = 第 2 位</b><span>直接抄數字。</span></div>
+    <div class="row"><b>S = 後面全部縮成一位：有任何非 0 就寫 1，全 0 寫 0</b><span>例：0.006403 留 3 位 → 0.006 | 4 0 | 3 → S = 1 → 寫成 0.006401</span></div>
+  </div>
+
+  <h3>捨入規則（round to nearest even）</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>G R S 尾巴</th><th>做法</th></tr></thead>
+    <tbody>
+      <tr><td>比一半小</td><td>直接捨去</td></tr>
+      <tr><td>比一半大</td><td>最後保留的那位 +1（注意進位制）</td></tr>
+      <tr><td>剛好一半</td><td>最後保留的那位是奇數 → +1；偶數 → 捨去</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>進位制</th><th>「剛好一半」長這樣</th><th>怎麼比</th></tr></thead>
+    <tbody>
+      <tr><td>2</td><td class="m">100</td><td>G=1 且 RS 不全 0 → 進；G=0 → 捨</td></tr>
+      <tr><td>6 / 8 / 10 / 12</td><td class="m">300 / 400 / 500 / 600</td><td>G 比 b/2 大就進，小就捨，等於再看 R、S</td></tr>
+      <tr><td>7 / 11（奇數）</td><td>永遠不會剛好一半</td><td>G 和 3（或 5）比；相等再拿 R 和 3（或 5）比</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>加減法 SOP</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div><b>對齊：</b>指數小的那個往右移（差幾次方就移幾位），指數改成大的。</div></li>
+      <li><div><b>截斷：</b>移完後只留「原本小數位數 + 2」位，後面全部縮成 S。</div></li>
+      <li><div><b>加減：</b>用題目的進位制算（8 進位借 1 是借 8）。</div></li>
+      <li><div><b>正規化：</b>整數部分只能有一位非 0 數字，不是的話移小數點並改指數。</div></li>
+      <li><div><b>捨入：</b>看 G R S 套上面的規則。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">110 / 112 / 109 都考過 · (3.142)₈ × 8¹ − (6.403)₈ × 8⁻²</div>
+<pre class="calc">對齊：指數差 3，6.403 往右移 3 位 → 0.006403
+截斷：留 3+2 = 5 位 → 0.00640 | 3 → S=1 → 0.006401
+相減（8 進位）：3.142000 − 0.006401 = 3.133377
+捨入：尾巴 377 &lt; 400（一半）→ 捨去
+答案：<span class="ans">3.133 × 8¹</span></pre>
+  </div>
+  <div class="ex">
+    <div class="src">110 期中 Q7(c) · (2.354)₆ × 6³ + (3.034)₆ × 6⁴</div>
+<pre class="calc">對齊：2.354 右移 1 位 → 0.2354（沒有多出來的，S=0）→ 0.235400
+相加（6 進位）：0.235400 + 3.034000 = 3.313400
+捨入：尾巴 400 &gt; 300（一半）→ 最後一位 +1
+答案：<span class="ans">3.314 × 6⁴</span>　（考卷上寫 3.313 被扣分，就是忘了進位）</pre>
+  </div>
+
+  <h3>乘法（2 進位）SOP</h3>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>尾數相乘（直式乘法），指數相加。</div></li>
+      <li><div>正規化成 1.xxx。</div></li>
+      <li><div>留原本的小數位數，套捨入規則。進位後又變成 10.xx 的話再正規化一次。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">113 期中 Q7(a) · (1.01)₂ × 2² × (1.10)₂ × 2⁻⁵</div>
+<pre class="calc">1.01 × 1.10 = 1.1110；指數 2 + (−5) = −3 → 1.1110 × 2⁻³
+留 2 位：1.11 | 1 0 0 → 剛好一半，最後一位 1 是奇數 → +1
+1.11 + 0.01 = 10.00 → 再正規化
+答案：<span class="ans">1.00 × 2⁻²</span></pre>
+  </div>
+  <div class="ex">
+    <div class="src">110 期中 Q7(b) · (1.11)₂ ÷ (1.01)₂</div>
+<pre class="calc">7/4 ÷ 5/4 = 7/5 = 1.4 = 1.0110011…₂（用長除法或 ×2 法）
+留 2 位：1.01 | G=1 R=0 | 後面 01100… 有 1 → S=1
+尾巴 101 &gt; 100 → 進位
+答案：<span class="ans">1.10</span></pre>
+  </div>
+  <div class="trap"><div class="t">陷阱</div>
+    <ul class="plain">
+      <li>S 只能是 0 或 1，不要把後面整串數字抄進去。</li>
+      <li>小減大的時候改成「−（大 − 小）」，答案記得加負號。</li>
+      <li>12 進位：A=10、B=11，借位時借 12。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ MUL ============ -->
+<section class="ch" id="mul">
+  <h2><span class="no">05</span>乘法硬體表格</h2>
+  <p class="lead">每個 iteration 固定 3 行。5-bit 就做 5 個 iteration。</p>
+  <div class="formula">
+    <div class="row"><b>Multiplier：n bits　Multiplicand：2n bits　Product：2n bits（從 0 開始）</b><span>負數直接用 2 補數；Multiplicand 左半補符號位（負數補 1）。</span></div>
+  </div>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div>看 Multiplier <b>最右邊</b>的 bit：1 → Product = Product + Multiplicand；0 → 什麼都不做。</div></li>
+      <li><div>Multiplicand <b>左移</b> 1 位（右邊補 0）。</div></li>
+      <li><div>Multiplier <b>右移</b> 1 位（左邊補 0）。</div></li>
+    </ol>
+  </div>
+  <div class="ex">
+    <div class="src">109 期中 Q8 · 5-bit，(−2)₁₀ × (−5)₁₀</div>
+<pre class="calc">−2 → 5 bits 00010 → 反轉+1 → 11110 → 補到 10 bits：11111 11110
+−5 → 00101 → 反轉+1 → 11011（Multiplier）</pre>
+    <div class="tbl"><table class="steps" id="t-mul"></table></div>
+<pre class="calc">只看 Product 右邊 5 bits：01010 = <span class="ans">10</span> ✓（−2 × −5 = 10）</pre>
+  </div>
+  <div class="tip"><div class="t">黃底 = 這一行有變的那一格</div>
+    <p>考試時只要每一行只改一個欄位，就不會抄錯。投影片也有 Multiplicand 只補 0 的寫法（0000 1110），兩種 Product 右邊 n bits 都一樣。</p>
+  </div>
+</section>
+
+<!-- ============ DIV ============ -->
+<section class="ch" id="div">
+  <h2><span class="no">06</span>除法硬體表格</h2>
+  <p class="lead">110、112、113 連續三年都考。112 年照這個寫拿 15/15。</p>
+  <div class="formula">
+    <div class="row"><b>Quotient：n bits = 0</b><span></span></div>
+    <div class="row"><b>Divisor：2n bits，除數放在「左半」，右半補 0</b><span>9 → 01001 00000</span></div>
+    <div class="row"><b>Remainder：2n bits，被除數放在「右半」</b><span>29 → 00000 11101</span></div>
+    <div class="row"><b>總共做 n + 1 次（5-bit → 6 次）</b><span>表格印到 7 也只做 6 次。</span></div>
+  </div>
+  <div class="sopbox">
+    <ol class="sop">
+      <li><div><b>Rem = Rem − Div。</b>結果是負的，就寫 2¹⁰ − |差| 的 10-bit 二進位（最左 bit 會是 1）。</div></li>
+      <li><div><b>看 Rem 最左邊的 bit：</b><br>是 1（負）→ 把 Div 加回去（Rem 變回上一行），Quotient 左移、最右補 0。<br>是 0（≥0）→ Rem 不動，Quotient 左移、最右補 1。</div></li>
+      <li><div><b>Div 右移 1 位。</b></div></li>
+    </ol>
+  </div>
+  <div class="tip"><div class="t">偷吃步：先知道答案</div>
+    <p>先用十進位算出商和餘數（29 ÷ 9 = 3 餘 2）。商 3 = 00011，前面幾次一定都是負的（2b），最後兩次才會是正的（2a）。每次負數那行：用 1024 減掉差值就是答案，例如 29 − 288 = −259 → 1024 − 259 = 765 = 10111 11101。</p>
+  </div>
+  <div class="ex">
+    <div class="src">112 Q9 (45)₆ ÷ (13)₆ ／ 113 Q8 (104)₅ ÷ (14)₅ · 兩題都是 29 ÷ 9</div>
+<pre class="calc">(45)₆ = 4×6 + 5 = 29　(13)₆ = 6 + 3 = 9
+(104)₅ = 25 + 0 + 4 = 29　(14)₅ = 5 + 4 = 9</pre>
+    <div class="tbl"><table class="steps" id="t-div9"></table></div>
+<pre class="calc">Quotient = 00011 = <span class="ans">3</span>　Remainder 右半 = 00010 = <span class="ans">2</span></pre>
+  </div>
+  <div class="ex">
+    <div class="src">110 Q8 · (41)₇ ÷ (11)₇ = 29 ÷ 8</div>
+    <div class="tbl"><table class="steps" id="t-div8"></table></div>
+<pre class="calc">Quotient = 00011 = <span class="ans">3</span>　Remainder = 00101 = <span class="ans">5</span></pre>
+  </div>
+  <div class="trap"><div class="t">113 年考卷被扣 9 分的原因</div>
+    <ul class="plain">
+      <li>Divisor 放在右半（00000 01001）：錯，一開始要放左半（01001 00000）。</li>
+      <li>做了 7 個 iteration：5-bit 只做 6 個。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PAST ============ -->
+<section class="ch" id="past">
+  <h2><span class="no">07</span>考古題詳解</h2>
+  <p class="lead">先蓋著自己算，再點開對答案。前面章節已經寫過完整過程的題目，這裡只放答案。</p>
+  <div class="btnrow"><button class="pri" type="button" id="openAll">全部展開</button><button type="button" id="closeAll">全部收起</button></div>
+
+  <div class="year">
+    <h3>113 年 <small>1131023</small></h3>
+    <details class="qa"><summary><span class="tag">Q1</span>編譯器 A/B，1.2 GHz</summary><div class="body"><p>CPI_A = <span class="ans">0.96</span>、CPI_B = <span class="ans">1.5</span>；(b) <span class="ans">fA/fB = 0.64</span>；(c) 新 1.05 s，比 A（0.96 s）慢，比 B（1.25 s）快 <span class="ans">1.19 倍</span>。過程見 <a href="#perf">題型 A</a>。</p></div></details>
+    <details class="qa"><summary><span class="tag">Q2</span>MFLOPS 求 x、y，2.5 GHz</summary><div class="body"><p>x = <span class="ans">1.65</span>、y = <span class="ans">1.18</span>；MIPS 2000 / 2381；MFLOPS 2500 / 3125。過程見 <a href="#perf">題型 B</a>。</p></div></details>
+    <details class="qa"><summary><span class="tag">Q3</span>M1、M2 與三個編譯器</summary><div class="body"><p>(a) M1 快 1.43 倍 (b) 買 M1 (c) 用 C1 (d) M1 + C2 最慢。過程見 <a href="#perf">題型 C</a>。</p></div></details>
+    <details class="qa"><summary><span class="tag">Q4</span>進位轉換 5 小題</summary><div class="body">
+<pre class="calc">(a) (358)₉ = 243+45+8 = 296 → (24A)₁₁
+(b) (−2310.102)₄ → (−264.22)₈
+(c) (2D)₁₆ = 45 → +64 = 109 → 1101101
+(d) Excess32 (001101) = 13 − 32 = −19 → 19 = 2×7+5 → (−25)₇
+(e) (−154.213)₆ → (10111001.101)₂</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q5</span>IEEE 754 轉換</summary><div class="body">
+<pre class="calc">(a) −1.11 × 2⁴⁶
+(b) 1.0 × 2⁻¹²
+(c) 1 11111110 10100000000000000000000
+(d) 0 00000000 00101000000000000000000</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q6</span>能表示幾個不同實數</summary><div class="body"><p><span class="ans">2³² − 2²⁴ − 1</span></p></div></details>
+    <details class="qa"><summary><span class="tag">Q7</span>GRS 計算</summary><div class="body">
+<pre class="calc">(a) 1.1110×2⁻³ → 剛好一半、奇數進位 → 1.00 × 2⁻²
+(b) (6.42)₇×7⁴ − (2.33)₇×7²
+    2.33 右移 2 位 → 0.0233，S=0 → 0.02330
+    6.42000 − 0.02330 = 6.36340（7 進位）
+    尾巴 340：G=3 等於 3，看 R=4 &gt; 3 → 進位 → 6.36 + 0.01 = 6.40
+    答案：6.40 × 7⁴
+(c) (2.561)₈×8⁰ − (5.401)₈×8⁻³
+    5.401 右移 3 位 → 0.005401 → 留 5 位 0.00540 | 1 → 0.005401
+    2.561000 − 0.005401 = 2.553377 → 377 &lt; 400 捨去
+    答案：2.553 × 8⁰
+(d) (6.A4)₁₂×12¹ − (3.B7)₁₂×12⁴
+    6.A4 右移 3 位 → 0.006A4 → 留 4 位 0.006A | 4 → S=1 → 0.006A1
+    0.006A1 − 3.B7000 = −(3.B7000 − 0.006A1) = −3.B651B
+    尾巴 51B &lt; 600 → 捨去
+    答案：−3.B6 × 12⁴</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q8</span>除法 (104)₅ ÷ (14)₅</summary><div class="body"><p>29 ÷ 9，Quotient <span class="ans">00011</span>、Remainder <span class="ans">00010</span>。完整表格見 <a href="#div">除法表格</a>。</p></div></details>
+  </div>
+
+  <div class="year">
+    <h3>112 年 <small>1121018</small></h3>
+    <details class="qa"><summary><span class="tag">Q1</span>P1/P2 四類指令（A=2x, B=x, C=x, D=0.5x）</summary><div class="body">
+<pre class="calc">P1 cycles = 2x×1 + x×2 + x×3 + 0.5x×4 = 9x → 9x ÷ 1.2G = 7.5x ns
+P2 cycles = 2x×2 + x×3 + x×1 + 0.5x×6 = 11x → 11x ÷ 2G = 5.5x ns
+(a) P2 較快，7.5 ÷ 5.5 = 15/11 ≈ 1.36 倍
+(b) B 的 CPI 變 0：P1 9x ÷ 7x = 9/7 ≈ 1.29；P2 11x ÷ 8x = 11/8 = 1.375
+(c) D 變 0.7x 個，總 cycle 要變 0.9 倍：
+    P1：8.1x = 7x + 0.7x·c → c = 11/7 ≈ 1.57（原本 4）
+    P2：9.9x = 8x + 0.7x·c → c = 19/7 ≈ 2.71（原本 6）</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q2</span>編譯器 A/B，1 GHz，給執行時間</summary><div class="body">
+<pre class="calc">(a) CPI_A = 0.8×10⁹ ÷ 10⁹ = 0.8；CPI_B = 1.5×10⁹ ÷ 1.2×10⁹ = 1.25
+(b) MIPS 相同 → fA/fB = 0.8 ÷ 1.25 = 0.64（16/25）
+(c) 比 B 快 1.8 倍 → 時間 = 1.5 ÷ 1.8 ≈ 0.833 s
+    IC = 0.833 × 10⁹ ÷ 1.05 ≈ 7.94×10⁸</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q3</span>謬誤三連問</summary><div class="body"><p>見 <a href="#perf">題型 E</a>：(a) 不成立 (b) 約 1.17×10⁹ 個 (c) 此例成立。</p></div></details>
+    <details class="qa"><summary><span class="tag">Q4</span>MIPS 和效能反向的例子</summary><div class="body"><p>見 <a href="#perf">題型 E</a> 第二個例子。</p></div></details>
+    <details class="qa"><summary><span class="tag">Q5</span>轉換表格</summary><div class="body">
+<pre class="calc">(1) Excess32 (110101) = 53 − 32 = 21 = 3×6+3 → (33)₆
+(2) Excess64 (0101110) = 46 − 64 = −18 = −(1×11+7) → (−17)₁₁
+(3) −18 → 010010 → 反轉 101101 → +1 → (101110)₂
+(4) (−125.343)₆ = −53.625 = −110101.101
+    加符號位 0110101.101
+    反轉 1001010.010 → +1 → (1001010.011)₂</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q6</span>IEEE 754 轉換</summary><div class="body">
+<pre class="calc">(a) 1 11111101 01011… → E=253 → −1.01011 × 2¹²⁶
+(b) 0 00000000 1001… → denorm → 0.1001 × 2⁻¹²⁶
+(c) 2⁻⁵¹ → −51+127 = 76 → 0 01001100 000…0
+(d) −1.11 × 2⁻¹³⁰ → 左移 4 位 → −0.000111 × 2⁻¹²⁶
+    → 1 00000000 00011100000000000000000</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q7</span>最小 normalized gap、能表示幾個數</summary><div class="body"><p>(a) <span class="ans">2⁻¹⁴⁹</span>　(b) <span class="ans">2³² − 2²⁴ − 1</span></p></div></details>
+    <details class="qa"><summary><span class="tag">Q8</span>GRS 計算</summary><div class="body">
+<pre class="calc">(a) 1.10 × 1.10 = 10.0100，指數 3 → 1.00100 × 2⁴
+    留 2 位：1.00 | 100 → 剛好一半，最後一位 0 偶數 → 捨去 → 1.00 × 2⁴
+(b) (2.153)₆×6² + (4.302)₆×6⁻¹
+    4.302 右移 3 位 → 0.004302 → 0.00430 | 2 → 0.004301
+    2.153000 + 0.004301 = 2.201301 → 尾巴 301 &gt; 300 → 進位 → 2.202 × 6²
+(c) 3.133 × 8¹（見 GRS 章節）
+(d) (5.94)₁₁×11¹ − (3.A8)₁₁×11⁴
+    5.94 右移 3 位 → 0.00594 → 0.0059 | 4 → 0.00591
+    3.A8000 − 0.00591 = 3.A751A → 尾巴 51A：G=5 等於一半的 5，R=1 &lt; 5 → 捨去
+    答案：−3.A7 × 11⁴</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q9</span>除法 (45)₆ ÷ (13)₆</summary><div class="body"><p>29 ÷ 9，同 <a href="#div">除法表格</a>：Q = 00011、R = 00010。</p></div></details>
+  </div>
+
+  <div class="year">
+    <h3>110 年 <small>1101103</small></h3>
+    <details class="qa"><summary><span class="tag">Q1</span>編譯器 A/B，cycle time 1 ns</summary><div class="body">
+<pre class="calc">1 ns → 1 GHz = 1000 MHz
+(a) CPI_A = 1000 ÷ 1250 = 0.8；CPI_B = 1000 ÷ 800 = 1.25
+(b) 執行時間相同 → fA/fB = (10⁹×0.8) ÷ (1.2×10⁹×1.25) = 0.8 ÷ 1.5 = 8/15 ≈ 0.53
+(c) 新 = 850×10⁶ × 1.6 ÷ 10⁹ = 1.36 s；A = 0.8 s；B = 1.5 s
+    對 A：0.8 ÷ 1.36 ≈ 0.59 → 新的比 A 慢（A 快 1.7 倍）
+    對 B：1.5 ÷ 1.36 ≈ 1.10 倍快</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q2</span>MFLOPS、求 x、y，3 GHz</summary><div class="body">
+<pre class="calc">(a) MFLOPS_A = 3000 ÷ 1 = 3000；MFLOPS_B = 3000 ÷ 0.8 = 3750
+(b) A：4.2 × 3×10⁹ ÷ 10¹⁰ = 1.26 = 0.5x + 0.4 + 0.15 → x = 1.42
+    B：14.4 × 3×10⁹ ÷ 4×10¹⁰ = 1.08 = 0.5 + 0.32 + 0.2y → y = 1.3</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q3</span>Speedup 與 MAC</summary><div class="body"><p>(a) <span class="ans">≈ 2.14</span>　(b) MUL、ADD 各換 <span class="ans">4×10⁶</span> 個。過程見 <a href="#perf">題型 D</a>。</p></div></details>
+    <details class="qa"><summary><span class="tag">Q4</span>進位轉換 5 小題</summary><div class="body">
+<pre class="calc">(a) (354)₇ = 147+35+4 = 186 = 1×121 + 5×11 + 10 → (15A)₁₁
+(b) (−35.16)₈ = −011 101.001 110 → −1 11 01.00 11 10 → (−131.032)₄
+(c) (−104.343)₆ = −40.625 = −101000.101 → 0101000.101
+    反轉 1010111.010 → +1 → (1010111.011)₂
+(d) (3A)₁₃ = 49 → +64 = 113 → 1110001
+(e) Excess32 (010011) = 19 − 32 = −13 → (−23)₅</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q5</span>IEEE 754 轉換</summary><div class="body">
+<pre class="calc">(a) 0 10000011 011… → 131−127 = 4 → 1.011 × 2⁴
+(b) 1 00000000 011… → −0.011 × 2⁻¹²⁶
+(c) 1 01111111 01011… → 127−127 = 0 → −1.01011 × 2⁰
+(d) 2⁻¹²⁴ → 3 → 0 00000011 000…0
+(e) 1.101 × 2⁻¹²⁸ → 左移 2 位 → 0.01101 × 2⁻¹²⁶
+    → 0 00000000 01101000000000000000000</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q6</span>能表示幾個不同實數</summary><div class="body"><p><span class="ans">2³² − 2²⁴ − 1</span></p></div></details>
+    <details class="qa"><summary><span class="tag">Q7</span>GRS 計算</summary><div class="body">
+<pre class="calc">(a) 1.001 × 1.100 = 1.101100，指數 3
+    留 3 位：1.101 | 100 → 剛好一半，最後一位 1 奇數 → 進位 → 1.110 × 2³
+(b) 1.10（見 GRS 章節）
+(c) 3.314 × 6⁴（見 GRS 章節）
+(d) 3.133 × 8¹
+(e) −3.B6 × 12⁴（算法同 113 Q7(d)）</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q8</span>除法 (41)₇ ÷ (11)₇</summary><div class="body"><p>29 ÷ 8，Q = <span class="ans">00011</span>、R = <span class="ans">00101</span>。表格見 <a href="#div">除法表格</a>。</p></div></details>
+  </div>
+
+  <div class="year">
+    <h3>109 年 <small>1091030</small></h3>
+    <details class="qa"><summary><span class="tag">Q1</span>P1 4 GHz/CPI 1.4/10⁹，P2 3 GHz/CPI 0.9/5×10⁹</summary><div class="body">
+<pre class="calc">P1 = 10⁹ × 1.4 ÷ 4×10⁹ = 0.35 s；P2 = 5×10⁹ × 0.9 ÷ 3×10⁹ = 1.5 s
+(a) clock 高的 P1 也比較快 → 此例剛好成立
+(b) MIPS_P1 ≈ 2857，MIPS_P2 ≈ 3333 → P2 MIPS 高卻比較慢 → 不成立</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q2</span>MFLOPS 與 MIPS，3 GHz</summary><div class="body">
+<pre class="calc">(a) CPI = 0.5×0.75 + 0.4×1 + 0.1×1.5 = 0.925
+    MIPS = 3000 ÷ 0.925 ≈ 3243；MFLOPS = 3000 ÷ 1 = 3000
+(b) CPI = 0.4×1.25 + 0.4×0.7 + 0.2×1.25 = 1.03
+    MIPS = 3000 ÷ 1.03 ≈ 2913；MFLOPS = 3000 ÷ 0.7 ≈ 4286</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q3</span>FP 50、INT 80、L/S 40、Branch 30 秒</summary><div class="body">
+<pre class="calc">總共 200 s
+(a) INT 少 30%：80 → 56，總 176 → 200 ÷ 176 ≈ 1.14
+(b) 要少 25% = 50 s，但 Branch 只有 30 s → 不可能
+(c) L/S 變 0：200 ÷ 160 = 1.25</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q4</span>IEEE 754 轉換</summary><div class="body">
+<pre class="calc">(a) 0 00010001 0011… → 17−127 = −110 → 1.0011 × 2⁻¹¹⁰
+(b) 1 01111111 101… → −1.101 × 2⁰
+(c) −1.001 × 2⁻¹²⁹ → 左移 3 位 → −0.001001 × 2⁻¹²⁶
+    → 1 00000000 00100100000000000000000
+(d) 1.101 × 2³⁵ → 35+127 = 162 = 10100010
+    → 0 10100010 10100000000000000000000
+(e) 2⁻⁵⁰ → 77 = 01001101 → 0 01001101 000…0</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q5</span>最大 gap、denorm 範圍、總數</summary><div class="body">
+<pre class="calc">(a) 最大 normalized gap = 2¹⁰⁴
+(b) 正 denormalized：2⁻¹⁴⁹ ~ 2⁻¹²⁶ − 2⁻¹⁴⁹
+(c) 1 + 2×(2²³ − 1) + 2×254×2²³ = 2³² − 2²⁴ − 1</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q6</span>轉換表格</summary><div class="body">
+<pre class="calc">(1) Excess32 (010110) = 22 − 32 = −10 → (−A)₁₁
+(2) −10 → 01010 → 10101 → +1 → (10110)₂
+(3) Excess64 (1101100) = 108 − 64 = 44 → (54)₈
+(4) 44 → (0101100)₂
+(5) (−26.54)₈ = −22.6875 = −10110.1011 → 010110.1011
+    反轉 101001.0100 → +1 → (101001.0101)₂</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q7</span>GRS 計算</summary><div class="body">
+<pre class="calc">(a) 1.00 × 2⁴（同 112 Q8a）
+(b) (5.34)₇×7² + (2.16)₇×7³ → 0.534 + 2.160 = 3.024
+    尾巴 400：G=4 &gt; 3 → 進位 → 3.03 × 7³
+(c) 3.133 × 8¹
+(d) (1.37)₁₀×10¹ + (6.50)₁₀×10⁻¹ → 1.37000 + 0.06500 = 1.43500
+    尾巴 500 剛好一半，最後一位 7 奇數 → 進位 → 1.44 × 10¹
+(e) (7.B2)₁₂×12² − (5.0A)₁₂×12⁵
+    7.B2 右移 3 位 → 0.007B2 → 0.007B | 2 → 0.007B1
+    5.0A000 − 0.007B1 = 5.0940B → 40B &lt; 600 → 捨去 → −5.09 × 12⁵</pre></div></details>
+    <details class="qa"><summary><span class="tag">Q8</span>乘法 (−2) × (−5)</summary><div class="body"><p>完整表格見 <a href="#mul">乘法表格</a>，Product 右邊 5 bits = <span class="ans">01010</span>。</p></div></details>
+  </div>
+</section>
+
+<!-- ============ TOOLS ============ -->
+<section class="ch" id="tools">
+  <h2><span class="no">08</span>對答案工具</h2>
+  <p class="lead">自己出題練習，算完用這裡檢查。</p>
+
+  <div class="tool">
+    <h4>除法 / 乘法表格產生器</h4>
+    <div class="fields">
+      <label for="tMode">模式<select id="tMode"><option value="div">除法（無號）</option><option value="mul">乘法（2 補數）</option></select></label>
+      <label for="tA">被除數 / 被乘數<input id="tA" type="number" value="29"></label>
+      <label for="tB">除數 / 乘數<input id="tB" type="number" value="9"></label>
+      <label for="tN">bits<input id="tN" type="number" value="5" min="3" max="8"></label>
+      <button class="pri" type="button" id="tGo">產生表格</button>
+    </div>
+    <div class="out" id="tMsg"></div>
+    <div class="tbl"><table class="steps" id="t-tool"></table></div>
+  </div>
+
+  <div class="tool">
+    <h4>進位轉換器</h4>
+    <div class="fields">
+      <label for="cV">數字（可負、可小數）<input id="cV" value="-154.213"></label>
+      <label for="cF">原本進位<input id="cF" type="number" value="6" min="2" max="16"></label>
+      <label for="cT">目標進位<input id="cT" type="number" value="2" min="2" max="16"></label>
+      <button class="pri" type="button" id="cGo">轉換</button>
+    </div>
+    <div class="out" id="cOut"></div>
+  </div>
+</section>
+
+<!-- ============ CHEAT ============ -->
+<section class="ch" id="cheat">
+  <h2><span class="no">09</span>考前 5 分鐘小抄</h2>
+  <div class="cheat">
+    <div class="card"><h4>效能</h4><div>時間 = IC × CPI ÷ f<br>CPI = f(MHz) ÷ MIPS<br>MFLOPS = f(MHz) ÷ CPI(FP)<br>快幾倍 = 大時間 ÷ 小時間</div></div>
+    <div class="card"><h4>Speedup</h4><div>最高 = 原總時間 ÷（總時間 − 那一類）<br>能不能減 X%：那一類要 ≥ X% × 總時間</div></div>
+    <div class="card"><h4>2 補數</h4><div>正數前面補 0 → 全部反轉 → 最右位 +1<br>k bits 範圍 −2ᵏ⁻¹ ~ 2ᵏ⁻¹−1</div></div>
+    <div class="card"><h4>Excess</h4><div>真值 = 存的 − N<br>Excess 32 → 6 bits，Excess 64 → 7 bits</div></div>
+    <div class="card"><h4>IEEE 754</h4><div>1 | 8 | 23，bias 127<br>E=0：0.f × 2⁻¹²⁶<br>e &lt; −126：左移 (−126−e) 位<br>總數 2³² − 2²⁴ − 1<br>gap = 2^(e−23)：最小 2⁻¹⁴⁹，最大 2¹⁰⁴</div></div>
+    <div class="card"><h4>GRS</h4><div>留原位數 + G + R，後面縮成 S（0/1）<br>大於一半進位，小於捨去<br>剛好一半：奇進偶捨</div></div>
+    <div class="card"><h4>乘法表格</h4><div>n 次，每次 3 行<br>最右位 1 → 加；Mcand 左移；Mplier 右移<br>答案看 Product 右邊 n bits</div></div>
+    <div class="card"><h4>除法表格</h4><div>n+1 次，每次 3 行<br>Div 放左半、Rem 放右半<br>減 → 負就加回補 0／正就補 1 → Div 右移</div></div>
+  </div>
+</section>
+
+<footer>依據：Chap1、Chap2 投影片與 109、110、112、113 年第一次期中考考古題整理。數值答案已用程式逐題驗算。</footer>
+</div>
+
+<script>
+(function(){
+  function bin(v,n){v=((v%(1<<n))+(1<<n))%(1<<n);return v.toString(2).padStart(n,'0');}
+  function sp(s){var h=s.length/2;return s.slice(0,h)+' '+s.slice(h);}
+  function divRows(dd,dv,n){
+    var rows=[],Q=0,D=dv<<n,R=dd,M=1<<(2*n);
+    rows.push(['0','初始值',bin(Q,n),sp(bin(D,2*n)),sp(bin(R,2*n)),'']);
+    for(var it=1;it<=n+1;it++){
+      R=((R-D)%M+M)%M;
+      rows.push([it,'1: Rem = Rem − Div',bin(Q,n),sp(bin(D,2*n)),sp(bin(R,2*n)),'r']);
+      if(R>>(2*n-1)&1){R=(R+D)%M;Q=(Q<<1)%(1<<n);rows.push([it,'2b: Rem<0 → 加回 Div，Q 左移補 0',bin(Q,n),sp(bin(D,2*n)),sp(bin(R,2*n)),'qr']);}
+      else{Q=((Q<<1)|1)%(1<<n);rows.push([it,'2a: Rem≥0 → Q 左移補 1',bin(Q,n),sp(bin(D,2*n)),sp(bin(R,2*n)),'q']);}
+      D>>=1;rows.push([it,'3: Div 右移 1 位',bin(Q,n),sp(bin(D,2*n)),sp(bin(R,2*n)),'d']);
+    }
+    return {rows:rows,head:['Iter','步驟','Quotient','Divisor','Remainder'],res:'Quotient = '+bin(Q,n)+' = '+Q+'，Remainder = '+bin(R,n)+' = '+R};
+  }
+  function mulRows(mc,mp,n){
+    var rows=[],M=1<<(2*n),MC=((mc%M)+M)%M,MP=((mp%(1<<n))+(1<<n))%(1<<n),P=0;
+    rows.push(['0','初始值',bin(MP,n),sp(bin(MC,2*n)),sp(bin(P,2*n)),'']);
+    for(var it=1;it<=n;it++){
+      if(MP&1){P=(P+MC)%M;rows.push([it,'1a: 最右位 1 → Prod + Mcand',bin(MP,n),sp(bin(MC,2*n)),sp(bin(P,2*n)),'p']);}
+      else rows.push([it,'1: 最右位 0 → 不做事',bin(MP,n),sp(bin(MC,2*n)),sp(bin(P,2*n)),'']);
+      MC=(MC<<1)%M;rows.push([it,'2: Mcand 左移 1 位',bin(MP,n),sp(bin(MC,2*n)),sp(bin(P,2*n)),'c']);
+      MP>>=1;rows.push([it,'3: Mplier 右移 1 位',bin(MP,n),sp(bin(MC,2*n)),sp(bin(P,2*n)),'m']);
+    }
+    var low=P%(1<<n),sv=low>=(1<<(n-1))?low-(1<<n):low;
+    return {rows:rows,head:['Iter','步驟','Multiplier','Multiplicand','Product'],res:'Product 右邊 '+n+' bits = '+bin(low,n)+' = '+sv};
+  }
+  // which column changed: q=Quotient(2) r=Rem(4) d=Divisor(3) p=Product(4) c=Mcand(3) m=Mplier(2)
+  var colOf={q:[2],r:[4],qr:[2,4],d:[3],p:[4],c:[3],m:[2]};
+  function render(id,data){
+    var t=document.getElementById(id),h='<thead><tr>';
+    data.head.forEach(function(x,i){h+='<th'+(i>1?' class="m"':'')+'>'+x+'</th>';});
+    h+='</tr></thead><tbody>';
+    data.rows.forEach(function(r,idx){
+      var start=(idx===0||r[0]!==data.rows[idx-1][0]);
+      h+='<tr'+(start&&idx>0?' class="it-start"':'')+'>';
+      h+='<td class="it">'+(start?r[0]:'')+'</td><td>'+r[1]+'</td>';
+      var ch=colOf[r[5]]||[];
+      for(var c=2;c<5;c++){
+        var cls='m';
+        if(ch.indexOf(c)>=0)cls+=' chg';
+        if(r[5]==='r'&&c===4&&r[4][0]==='1')cls+=' neg';
+        h+='<td class="'+cls+'">'+r[c]+'</td>';
+      }
+      h+='</tr>';
+    });
+    t.innerHTML=h+'</tbody>';
+  }
+  render('t-mul',mulRows(-2,-5,5));
+  render('t-div9',divRows(29,9,5));
+  render('t-div8',divRows(29,8,5));
+
+  var tm=document.getElementById('tMode');
+  tm.addEventListener('change',function(){
+    if(tm.value==='mul'){document.getElementById('tA').value=-2;document.getElementById('tB').value=-5;}
+    else{document.getElementById('tA').value=29;document.getElementById('tB').value=9;}
+  });
+  function tool(){
+    var a=parseInt(document.getElementById('tA').value,10),b=parseInt(document.getElementById('tB').value,10),n=parseInt(document.getElementById('tN').value,10),msg=document.getElementById('tMsg');
+    if(isNaN(a)||isNaN(b)||isNaN(n)||n<3||n>8){msg.textContent='請輸入整數，bits 在 3 到 8 之間。';return;}
+    var d;
+    if(tm.value==='div'){
+      if(a<0||b<=0||a>=(1<<n)||b>=(1<<n)){msg.textContent='除法是無號數：被除數 0 ~ '+((1<<n)-1)+'，除數 1 ~ '+((1<<n)-1)+'。';return;}
+      d=divRows(a,b,n);
+    }else{
+      var lo=-(1<<(n-1)),hi=(1<<(n-1))-1;
+      if(a<lo||a>hi||b<lo||b>hi){msg.textContent=n+' bits 2 補數範圍是 '+lo+' ~ '+hi+'。';return;}
+      d=mulRows(a,b,n);
+    }
+    msg.textContent=d.res;render('t-tool',d);
+  }
+  document.getElementById('tGo').addEventListener('click',tool);tool();
+
+  var DG='0123456789ABCDEF';
+  function gcd(a,b){a=a<0n?-a:a;while(b){var t=a%b;a=b;b=t;}return a;}
+  function conv(){
+    var s=document.getElementById('cV').value.trim().toUpperCase(),f=parseInt(document.getElementById('cF').value,10),to=parseInt(document.getElementById('cT').value,10),out=document.getElementById('cOut');
+    if(!(f>=2&&f<=16&&to>=2&&to<=16)){out.textContent='進位要在 2 到 16 之間。';return;}
+    var neg=s[0]==='-';if(neg)s=s.slice(1);
+    var parts=s.split('.');if(parts.length>2||s===''){out.textContent='格式錯誤。';return;}
+    var num=0n,den=1n,B=BigInt(f);
+    var all=parts[0]+(parts[1]||'');
+    for(var i=0;i<all.length;i++){var d=DG.indexOf(all[i]);if(d<0||d>=f){out.textContent='「'+all[i]+'」不是 '+f+' 進位的數字。';return;}num=num*B+BigInt(d);}
+    for(var j=0;j<(parts[1]||'').length;j++)den*=B;
+    var g=gcd(num,den);if(g>0n){num/=g;den/=g;}
+    var T=BigInt(to),ip=num/den,fr=num%den,is='';
+    do{is=DG[Number(ip%T)]+is;ip/=T;}while(ip>0n);
+    var fs='';for(var k=0;k<12&&fr>0n;k++){fr*=T;fs+=DG[Number(fr/den)];fr%=den;}
+    var dec=(Number(num)/Number(den));
+    out.textContent='十進位 = '+(neg?'-':'')+dec+'　→　('+(neg?'-':'')+is+(fs?'.'+fs:'')+(fr>0n?'…':'')+')'+to;
+  }
+  document.getElementById('cGo').addEventListener('click',conv);conv();
+
+  document.getElementById('openAll').addEventListener('click',function(){document.querySelectorAll('details.qa').forEach(function(d){d.open=true;});});
+  document.getElementById('closeAll').addEventListener('click',function(){document.querySelectorAll('details.qa').forEach(function(d){d.open=false;});});
+})();
+</script>
+
+</body></html>
